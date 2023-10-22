@@ -1,70 +1,94 @@
-# Getting Started with Create React App
+# React
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- [https://react.dev/](https://react.dev/)
+- React là một thư viện Javascript để xây dựng giao diện người dùng.
+- React hỗ trợ xây dựng trang web theo hướng single page application (SPA)
+- VSCode extensions:
+  - [https://marketplace.visualstudio.com/items?itemName=dsznajder.es7-react-js-snippets](https://marketplace.visualstudio.com/items?itemName=dsznajder.es7-react-js-snippets)
+  - [https://marketplace.visualstudio.com/items?itemName=riazxrazor.html-to-jsx](https://marketplace.visualstudio.com/items?itemName=riazxrazor.html-to-jsx)
+- Browser extensions:
+  - [https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
 
-## Available Scripts
+### Create-react-app
 
-In the project directory, you can run:
+- [https://create-react-app.dev/](https://create-react-app.dev/)
+- Cài đặt: npx create-react-app project-name
+- CRA cung cấp bộ công cụ khởi tạo ứng dụng React, vì vậy bạn có thể đi vào xây dựng ứng dụng của mình mà không cần phải xử lý các cấu hình Webpack và Babel.
 
-### `npm start`
+### Component
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- React cho phép bạn xây dựng giao diện người dùng (UI) từ các phần riêng lẻ được gọi là `Component`.
+- Một component là một phần của giao diện người dùng mà bạn có thể tái sử dụng và tạo thành cấu trúc phức tạp bằng cách kết hợp nhiều component nhỏ hơn lại với nhau. Component giúp tách biệt các khía cạnh khác nhau của giao diện người dùng thành các phần độc lập, dễ quản lý và dễ bảo trì.
+- Ví dụ, bạn có thể tạo các component như "Header", "Sidebar", "Content", "Footer",... Mỗi component này có thể chứa các phần tử HTML, các trạng thái, xử lý sự kiện và cách hiển thị riêng biệt. Sau đó kết hợp chúng lại để tạo nên giao diện tổng thể của trang web.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```jsx
+function Home() {
+  return (
+    <div>
+      <Header />
+      <Sidebar />
+      <Content />
+      <Footer />
+    </div>
+  );
+}
+```
 
-### `npm test`
+### JSX
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- JSX (JavaScript XML) là một phần quan trọng và độc đáo của React, cho phép bạn viết mã HTML trong JavaScript để xây dựng giao diện người dùng của ứng dụng. JSX giúp làm cho việc tạo ra các component và giao diện người dùng trở nên dễ dàng hơn.
+- JSX cho phép viết các phần tử HTML bằng JavaScript và đặt chúng trong DOM mà không cần bất kỳ phương thức như createElement() hoặc appendChild().
 
-### `npm run build`
+```jsx
+function App() {
+  return (
+    <section>
+      <h1>Hello BC55</h1>
+    </section>
+  );
+}
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Vì JSX là một phần của Javascript nên nó sử dụng chuẩn quy tắc đặt tên camelCase cho thuộc tính thay vì dùng tên thuộc tính gốc của HTML. Đối với các thuộc tính HTML bị trùng tên với từ khóa JavaScript sẽ được đổi tên. Ví dụ: class -> className, for -> htmlFor
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```jsx
+<h1 className="title">Hello World!!!<div>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<label htmlFor="username">Username</label>
+<input type="text" id="username" />
+```
 
-### `npm run eject`
+- Dấu ngoặc nhọn {} cho phép bạn viết các biểu thức JavaScript bên trong JSX
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```jsx
+function Profile() {
+  const user = { name: "Alice", imgUrl: "..." };
+  return (
+    <div>
+      <h1>{user.name}</h1>
+      <img className="avatar" src={user.imageUrl} />
+    </div>
+  );
+}
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Trong JSX, bạn phải bao bọc tất cả các phần tử trong một phần tử cha duy nhất.
+- Có thể sử dụng thẻ Fragment để bao bọc các phần tử con mà không cần thêm thẻ div.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```jsx
+// Đúng
+<div>
+  <h1>Hello World!!!</h1>
+  <h1>Hello World!!!</h1>
+</div>
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+// Đúng
+<>
+  <h1>Hello World!!!</h1>
+  <h1>Hello World!!!</h1>
+</>
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+// Sai
+<h1>Hello World!!!</h1>
+<h2>Hello World!!!</h2>
+```
