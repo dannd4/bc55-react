@@ -92,3 +92,91 @@ function Profile() {
 <h1>Hello World!!!</h1>
 <h2>Hello World!!!</h2>
 ```
+
+### Events
+
+- React cho phép bạn thêm các trình xử lý sự kiện (Event handlers) vào JSX.
+- Các trình xử lý sự kiện trong React được đặt tên bằng camelCase. Ví dụ: onClick, onChange, onSubmit,...
+- Các hàm chức năng chỉ được truyền vào trình xử lý sự kiện, không được gọi.
+
+```jsx
+<button onClick={handleClick}>
+  Clicker
+</button>
+
+<input onChange={handleChange}>
+```
+
+- Trong trường hợp nếu hàm chức năng cần nhận vào tham số, ta viết dạng nội tuyến bằng cách sử dụng arrow function.
+
+```jsx
+const showMessage = (message) => {
+  alert(message);
+};
+
+return <button onClick={() => showMessage("Hello BC55")}>Show Message</button>;
+```
+
+- Tất cả sự kiện đều nhận được một đối số là event, nó là một đối tượng có các thuộc tính và phương thức giúp xử lý sự kiện. Quan trọng nhất là `event.target` là một tham chiếu đến phần tử DOM mà sự kiện được gọi.
+
+```jsx
+const handleChange = (event) => {
+  console.log(event.target.value);
+};
+
+return <input onChange={handleChange} />;
+```
+
+### Conditional rendering
+
+- Conditional rendering trong React là quá trình hiển thị các phần giao diện người dùng khác nhau dựa trên điều kiện nào đó. Điều này cho phép bạn quyết định xem phần nào của giao diện nên được hiển thị dựa trên trạng thái hoặc dữ liệu của ứng dụng.
+
+- Sử dụng if else
+
+```jsx
+function App() {
+  const isLoggedIn = true;
+
+  if (isLoggedIn) {
+    return (
+      <div>
+        <h1>Welcome back</h1>
+        <button>Logout</button>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <h1>Please login</h1>
+      <button>Login</button>
+    </div>
+  );
+}
+```
+
+- Sử dụng toán tử 3 ngôi
+
+```jsx
+function App() {
+  const isLoggedIn = true;
+
+  return (
+    <div>{isLoggedIn ? <button>Logout</button> : <button>Login</button>}</div>
+  );
+}
+```
+
+- Sử dụng &&
+
+```jsx
+function App() {
+  const isLoggedIn = true;
+  return (
+    <div>
+      {isLoggedIn && <button>Logout</button>}
+      {!isLoggedIn && <button>Login</button>}
+    </div>
+  );
+}
+```

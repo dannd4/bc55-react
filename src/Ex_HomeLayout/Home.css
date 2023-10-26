@@ -1,0 +1,35 @@
+.wrapper {
+  display: flex;
+}
+
+.content-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+  background-color: blue;
+  color: white;
+  height: 150px;
+}
+
+.sidebar {
+  background-color: green;
+  color: white;
+  height: 400px;
+  width: 25%;
+}
+
+.content {
+  background-color: yellow;
+  color: white;
+  height: 400px;
+  width: 75%;
+}
+
+.footer {
+  background-color: orange;
+  color: white;
+  height: 150px;
+}
