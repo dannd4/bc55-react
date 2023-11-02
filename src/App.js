@@ -4,9 +4,11 @@ import Events from "./3_Events/Events";
 import RenderCondition from "./4_RenderCondition/RenderCondition";
 import RenderList from "./5_RenderList/RenderList";
 import Props from "./6_Props/Props";
+import State from "./7_State/State";
 import Home from "./Ex_HomeLayout/Home";
 import MsiLayout from "./Ex_MsiLayout/MsiLayout";
 import ShoeShop from "./Ex_ShoeShop/ShoeShop";
+import TodoApp from "./Ex_TodoApp/TodoApp";
 
 function App() {
   return (
@@ -20,11 +22,13 @@ function App() {
     // <Events />
     // <RenderCondition />
     // <RenderList />
-    <Props />
+    // <Props />
+    // <State />
 
     // <Home />
     // <MsiLayout />
     // <ShoeShop />
+    <TodoApp />
   );
 }
 

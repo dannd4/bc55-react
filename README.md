@@ -180,3 +180,224 @@ function App() {
   );
 }
 ```
+
+### List and keys
+
+- List là một tính năng cho phép bạn hiển thị danh sách các phần tử tương tự nhau trong một cấu trúc dữ liệu. Ví dụ: danh sách các bài viết, danh sách các sản phẩm, danh sách các người dùng,...
+- Dùng phương thức map để chuyển đổi mảng dữ liệu của bạn thành một mảng các phần tử JSX hoặc Component.
+
+```jsx
+const users = [
+  { id: 1, name: "Alice" },
+  { id: 2, name: "Bob" },
+  { id: 3, name: "Charlie" },
+];
+
+function App() {
+  return (
+    <ul>
+      {users.map((user) => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+- Cần cung cấp thuộc tính key cho mỗi phần tử trong mảng để React có thể xác định xem phần tử nào đã thay đổi, thêm hoặc xóa. Nếu không có key, React sẽ cảnh báo trong console.
+- Giá trị của key phải là một chuỗi hoặc số xác định duy nhất cho mỗi phần tử trong mảng.
+
+### Event
+
+- React cho phép bạn thêm các trình xử lý sự kiện (Event handlers) vào JSX.
+- Các trình xử lý sự kiện trong React được đặt tên bằng camelCase. Ví dụ: onclick -> onClick, onchange -> onChange
+- Các hàm chức năng được chỉ được truyền vào trình xử lý sự kiện, không được gọi.
+
+```jsx
+<button onClick={handleClick}>
+  Clicker
+</button>
+
+<input onChange={handleChange}>
+```
+
+- Tất cả sự kiện đều nhận được một đối số là event, nó là một đối tượng có các thuộc tính và phương thức giúp xử lý sự kiện. Quan trọng nhất là event.target là một tham chiếu đến phần tử DOM mà sự kiện được gọi.
+
+```jsx
+const handleChange = (event) => {
+  console.log(event.target.value);
+};
+
+return <input onChange={handleChange} />;
+```
+
+- Để truyền tham số vào cho các hàm xử lý sự kiện, ta viết dạng nội tuyến bằng cách sử dụng arrow function
+
+```jsx
+const showMessage = (message) => {
+  alert(message);
+};
+
+return <button onClick={() => showMessage("Hello BC42")}>Show Message</button>;
+```
+
+### Props
+
+- Các component trong React sử dụng props để giao tiếp với nhau.
+- Props là một đối tượng (object) chứa các thuộc tính (properties) được truyền từ một component cha (parent component) đến một component con (child component). Các props này có thể là bất kỳ giá trị nào, từ kiểu dữ liệu đơn giản như chuỗi (string) hoặc số (number), cho đến các đối tượng phức tạp hơn.
+
+```jsx
+// Truyền props cho component con
+function App() {
+  return <Welcome name="John" age={30} />;
+}
+
+// Nhận props trong component con
+function Welcome(props) {
+  return (
+    <div>
+      My name is {props.name} and I am {props.age} years old.
+    </div>
+  );
+}
+```
+
+- Ngoài ra bởi vì props là một object, nên ta có thể sử dụng object destructuring để lấy các thuộc tính cần thiết
+
+```jsx
+function Welcome({ name, age }) {
+  return (
+    <div>
+      My name is {name} and I am {age} years old.
+    </div>
+  );
+}
+```
+
+- Trong React, bạn có thể truyền một hàm (function) làm prop cho một component. Khi một component nhận được một hàm làm prop, nó có thể gọi hàm đó và truyền các tham số vào để thực hiện các hành động cụ thể.
+
+  - Giúp gọi tới hàm xử lý của component cha khi một sự kiện xảy ra trong component con.
+  - Giúp truyền dữ liệu từ component con lên component cha.
+
+```jsx
+// Truyền hàm xử lý sự kiện cho component con
+function App() {
+  const handleShowMessage = (message) => {
+    alert(message);
+  };
+  return <Welcome onShowMessage={handleShowMessage} />;
+}
+
+// Nhận hàm xử lý sự kiện trong component con
+function Welcome({ onShowMessage }) {
+  const handleClick = () => {
+    onShowMessage("Hello");
+  };
+  return <button onClick={handleClick}>Show message</button>;
+}
+```
+
+- Trong React, prop children là một prop đặc biệt cho phép truyền các thành phần (components) hoặc các phần tử (elements) làm con của một component.
+
+```jsx
+function ParentComponent() {
+  return (
+    <ChildComponent>
+      <h1>Hello</h1>
+      <p>This is a child component.</p>
+    </ChildComponent>
+  );
+}
+
+function ChildComponent(props) {
+  return (
+    <div>
+      <h2>Child Component</h2>
+      {props.children}
+    </div>
+  );
+}
+```
+
+- Một số lưu ý:
+  - Props là chỉ đọc (read-only), không thể thay đổi giá trị của props trong component con.
+  - Nếu một component nhận được một prop không được truyền vào, giá trị của prop đó sẽ là undefined. Để tránh việc này, ta có thể khai báo giá trị mặc định cho prop bằng cách sử dụng cú pháp sau: `function Welcome({ name = "John" })`
+
+### State
+
+- Một số nội dung trên màn hình sẽ cập nhật theo tương tác của người dùng. Ví dụ như khi người dùng click vào button "Show" sẽ hiển thị nội dung ẩn, khi click vào button "Buy" sẽ đưa sản phẩm vào giỏ hàng,...Component cần lưu trữ trạng thái của nó để biết được nội dung hiển thị là gì, sản phẩm nào đã được thêm vào giỏ hàng. Trong React dữ liệu để lưu trữ trạng thái của component được gọi là State.
+- Thuật ngữ:
+  - render: là quá trình component tạo các thành phần UI.
+  - re-render: là quá trình component được chạy lại để tạo lại các thành phần UI.
+
+##### Khai báo một biến bình thường trong component là không đủ
+
+- Component Couter khởi tạo một biến count với giá trị là 0, nhấn vào nút Increment sẽ thay đổi giá trị của count bằng cách tăng lên một đơn vị. Tuy nhiên giao diện sẽ không hiển thị giá trị của count thay đổi.
+  - Các thay đổi đối với biến cục bộ sẽ không kích hoạt re-render, nghĩa là khi nhấn vào nút Increment, giá trị của count sẽ được tăng lên một đơn vị nhưng không có gì thay đổi trên giao diện.
+  - Các biến cục bộ không được chia sẻ giữa các lần re-render, nghĩa là mỗi lần render, biến count sẽ được khởi tạo lại về giá trị 0.
+
+```jsx
+function Counter() {
+  let count = 0;
+  const handleIncrement = () => {
+    count++;
+    console.log(count);
+  };
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={handleIncrement}>Increment</button>
+    </div>
+  );
+}
+```
+
+##### Để cập nhật một component với dữ liệu mới, hai điều cần phải xảy ra:
+
+- Dữ liệu được giữ lại giữa các lần render.
+- Kích hoạt để component được re-render lại với dữ liệu mới.
+
+##### Hook `useState`
+
+- `useState` là một React Hook cung cấp cho chúng ta hai điều trên:
+
+  - Một biến trạng thái (state) để giữ lại dữ liệu giữa các lần render.
+  - Một hàm setter để cập nhật giá trị của state và kích hoạt re-render lại component.
+
+- Cú pháp: `const [count, setCount] = useState(0)`. useState nhận vào một tham số là giá trị khởi tạo của state, và trả về một mảng gồm 2 phần tử: giá trị của state và hàm setter để cập nhật giá trị của state. Cú pháp [count, setCount] được gọi là array destructuring, cho phép đọc giá trị của mảng theo thứ tự.
+
+```jsx
+function Counter() {
+  const [count, setCount] = useState(0);
+  const handleIncrement = () => {
+    setCount(count + 1);
+  };
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={handleIncrement}>Increment</button>
+    </div>
+  );
+}
+```
+
+- Một số quy tắc khi sử dụng hooks:
+  - Chỉ gọi hooks từ React function component. Không được gọi hooks từ các hàm bình thường.
+  - Chỉ gọi hooks ở cấp độ cao nhất của component. Không được gọi hooks trong các vòng lặp, các hàm con hay các hàm xử lý sự kiện.
+
+### State vs Props
+
+| State                                                              | Props                                                                      |
+| ------------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| State được sử dụng để lưu trữ và quản lý trạng thái của component. | Props được sử dụng để truyền dữ liệu giữa các component                    |
+| State được tạo và quản lý bởi component thông qua hook `useState`  | Props được truyền vào component thông qua thuộc tính                       |
+| State chỉ có thể được thay đổi bởi component tạo ra nó             | Props là chỉ đọc, không thể thay đổi giá trị của props trong component con |
+| State thay đổi sẽ gây ra việc render lại component                 | Props thay đổi sẽ gây ra việc render lại component                         |
+
+### Re-rendering
+
+- Một component sẽ kích hoạt việc hiển thị lại (re-render) khi:
+
+  - Khi state của component thay đổi bằng cách gọi hàm setter được trả về từ hook useState.
+  - Khi props của component thay đổi do component cha truyền vào giá trị mới.
+  - Khi component cha re-render, tất cả các component con cũng sẽ re-render, bất kể props của chúng có thay đổi hay không.
