@@ -8,6 +8,7 @@ import State from "./7_State/State";
 import Home from "./Ex_HomeLayout/Home";
 import MsiLayout from "./Ex_MsiLayout/MsiLayout";
 import ShoeShop from "./Ex_ShoeShop/ShoeShop";
+import ShoppingCart from "./Ex_ShoppingCart/ShoppingCart";
 import TodoApp from "./Ex_TodoApp/TodoApp";
 
 function App() {
@@ -28,7 +29,8 @@ function App() {
     // <Home />
     // <MsiLayout />
     // <ShoeShop />
-    <TodoApp />
+    // <TodoApp />
+    <ShoppingCart />
   );
 }
 

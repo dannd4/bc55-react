@@ -6,7 +6,6 @@ export default function TodoApp() {
     { id: 1, title: "Learn Javascript", isCompleted: true },
     { id: 2, title: "Learn React", isCompleted: false },
   ]);
-
   const [todoTitle, setTodoTitle] = useState("");
 
   const handleRemoveTodo = (todoId) => {
@@ -25,8 +24,20 @@ export default function TodoApp() {
       isCompleted: false,
     };
 
-    setTodos([...todos, todo]);
+    setTodos([todo, ...todos]);
     setTodoTitle("");
+  };
+
+  const handleUpdateTodo = (todoId) => {
+    const newTodos = todos.map((todo) => {
+      if (todo.id === todoId) {
+        return { ...todo, isCompleted: !todo.isCompleted };
+      }
+
+      return todo;
+    });
+
+    setTodos(newTodos);
   };
 
   return (
@@ -46,7 +57,12 @@ export default function TodoApp() {
 
       <ul>
         {todos.map((todo) => (
-          <TodoItem key={todo.id} todo={todo} onRemove={handleRemoveTodo} />
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            onRemove={handleRemoveTodo}
+            onUpdate={handleUpdateTodo}
+          />
         ))}
       </ul>
     </div>
