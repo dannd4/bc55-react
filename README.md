@@ -401,3 +401,146 @@ function Counter() {
   - Khi state của component thay đổi bằng cách gọi hàm setter được trả về từ hook useState.
   - Khi props của component thay đổi do component cha truyền vào giá trị mới.
   - Khi component cha re-render, tất cả các component con cũng sẽ re-render, bất kể props của chúng có thay đổi hay không.
+
+### Effect
+
+- Một số component cần tương tác với các hệ thống bên ngoài React. Ví dụ khi một component được hiển thị ta muốn gọi API để lấy dữ liệu từ server, thao tác với DOM,... Những hành động này được gọi là side effect (hiệu ứng phụ).
+
+- Trước khi nói về Effect, ta cần nhớ lại hai khái nhiệm trong component:
+
+  - Rendering: là quá trình bạn sử dụng props và state và trả về JSX để hiển thị giao diện người dùng. Quá trình này chỉ đơn thuần tính toán và trả về kết quả mà không làm gì khác.
+  - Event handlers: là quá trình bạn viết các hàm để xử lý các hành động do người dùng gây ra (ví dụ nhấp chuột, nhập liệu,...). Xử lý sự kiện có thể đơn thuần là cập nhật một input hoặc có thể chứa các side effect như gọi API mua hàng.
+
+- Đôi khi 2 điều trên là không đủ, bạn hãy xem xét trường hợp một component `ChatRoom` khi được hiển thị, nó phải gọi API lấy những tin nhắn cũ và hiển thị ra cho người dùng thấy. Việc gọi API như đã đề cập ở trên là một side effect (không thuộc về React) vì vậy nó không thể xảy ra trong quá trình render. Tuy nhiên cũng không có một sự kiện cụ thể vào như là nhấp chuột để gây ra việc hiển thị những tin nhắn.
+
+- Effect là cơ chế cho phép bạn thực hiện các side effect được gây ra bởi quá trình component hiển thị mà không cần thông qua một sự kiện cụ thể.
+  - Gửi tin nhắn trong cuộc trò chuyện là một sự kiện vì nó được gây ra trực tiếp bởi người dùng nhấp chuột vào nút "Gửi".
+  - Tuy nhiên việc thiết lập hiển thị tin nhắn là một "Effect" vì nó không được gây ra bởi người dùng mà là do quá trình hiển thị component `ChatRoom`.
+
+##### Hook useEffect
+
+- React cung cấp hook `useEffect` để tạo ra các Effect trong component.
+- Cú pháp: `useEffect(callback, dependencies)`
+
+  - Tham số thứ nhất là một callback function chứa các side effect.
+  - Tham số thứ hai là một mảng chứa các giá trị phụ thuộc (dependencies).
+
+- Dựa vào tham số thứ 2 của useEffect mà ta sẽ chia ra làm 3 trường hợp sử dụng:
+
+  - `useEffect(callback, [])` với phụ thuộc là một mảng rỗng, thì useEffect sẽ chỉ gọi hàm `callback` một lần duy nhất sau khi component render lần đầu. Thường được sử dụng để thực hiện các tác vụ như lấy dữ liệu từ API.
+
+  ```jsx
+  function MyComponent() {
+    // Khai báo biến trạng thái cho dữ liệu được lấy từ API
+    const [data, setData] = useState([]);
+
+    // Định nghĩa hàm fetchData để gọi API
+    async function fetchData() {
+      // Gọi API
+      const response = await axios.get(`https://example.com/api`);
+      // Cập nhật biến trạng thái data với dữ liệu mới
+      setData(response.data);
+    }
+
+    // Sử dụng hook useEffect để gọi hàm fetchData khi component được khởi tạo
+    useEffect(() => {
+      // Gọi hàm fetchData
+      fetchData();
+    }, []); // Truyền một mảng rỗng vào tham số thứ hai để chỉ chạy hook useEffect một lần khi component được khởi tạo
+
+    // Hiển thị giao diện cho component
+    return (
+      <div>
+        <ul>
+          {data.map((item) => (
+            <li key={item.id}>{item.name}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+  ```
+
+  - `useEffect(callback, [a, b])` với phụ thuộc là một mảng chứa nhiều giá trị, thì useEffect sẽ gọi hàm `callback` sau khi component render lần đầu và sau các lần render tiếp theo nếu một trong các giá trị trong mảng thay đổi. Thường được sử dụng để đọc giá trị mới thay đổi của state hoặc prop và thực hiện các tác vụ phụ thuộc vào giá trị đó.
+
+    - Ví dụ: khi giá trị của state searchTerm thay đổi, ta cần lấy dữ liệu mới từ API.
+
+    ```jsx
+    function MyComponent() {
+      // Khai báo biến trạng thái cho giá trị searchTerm
+      const [searchTerm, setSearchTerm] = useState("");
+
+      // Khai báo biến trạng thái cho dữ liệu được lấy từ API
+      const [data, setData] = useState([]);
+
+      // Định nghĩa hàm fetchData để gọi API với giá trị searchTerm
+      async function fetchData() {
+        // Gọi API với giá trị searchTerm
+        const response = await axios.get(
+          `https://example.com/api?search=${searchTerm}`
+        );
+        // Cập nhật biến trạng thái data với dữ liệu mới
+        setData(response.data);
+      }
+
+      // Sử dụng hook useEffect để gọi hàm fetchData khi giá trị searchTerm thay đổi
+      useEffect(() => {
+        // Gọi hàm fetchData
+        fetchData();
+      }, [searchTerm]); // Truyền searchTerm vào mảng phụ thuộc để chỉ chạy hook useEffect khi searchTerm thay đổi
+
+      // Hiển thị giao diện cho component
+      return (
+        <div>
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <ul>
+            {data.map((item) => (
+              <li key={item.id}>{item.name}</li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+    ```
+
+    - Ví dụ: Theo dõi giá trị của props để thực hiện một hành động nào đó
+
+    ```jsx
+    function MyComponent({ name }) {
+      // Sử dụng hook useEffect để theo dõi giá trị của props name
+      useEffect(() => {
+        alert(`Giá trị mới của prop name: ${name}`);
+      }, [name]); // Truyền prop name vào mảng phụ thuộc để chỉ chạy hook useEffect khi prop name thay đổi
+
+      return <div>MyComponent</div>;
+    }
+    ```
+
+  - `useEffect(callback)` với mảng phụ thuộc không dược khai báo, thì useEffect sẽ gọi hàm `callback` mỗi khi component render. Trường hợp này không được khuyến khích sử dụng vì có thể gây ra các vấn đề về hiệu suất hoặc vòng lặp vô hạn nếu bạn không cẩn thận. Vì vậy, bạn nên truyền một mảng phụ thuộc là array rỗng hoặc array chứa các giá trị mà bạn muốn hàm callback của useEffect chạy lại khi chúng thay đổi.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

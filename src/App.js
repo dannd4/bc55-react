@@ -5,6 +5,8 @@ import RenderCondition from "./4_RenderCondition/RenderCondition";
 import RenderList from "./5_RenderList/RenderList";
 import Props from "./6_Props/Props";
 import State from "./7_State/State";
+import Form from "./8_Form/Form";
+import Effect from "./9_Effect/Effect";
 import Home from "./Ex_HomeLayout/Home";
 import MsiLayout from "./Ex_MsiLayout/MsiLayout";
 import ShoeShop from "./Ex_ShoeShop/ShoeShop";
@@ -25,12 +27,14 @@ function App() {
     // <RenderList />
     // <Props />
     // <State />
+    // <Form />
+    <Effect />
 
     // <Home />
     // <MsiLayout />
     // <ShoeShop />
     // <TodoApp />
-    <ShoppingCart />
+    // <ShoppingCart />
   );
 }
 
