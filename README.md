@@ -446,7 +446,7 @@ function Counter() {
     useEffect(() => {
       // Gọi hàm fetchData
       fetchData();
-    }, []); // Truyền một mảng rỗng vào tham số thứ hai để chỉ chạy hook useEffect một lần khi component được khởi tạo
+    }, []);
 
     // Hiển thị giao diện cho component
     return (
@@ -487,7 +487,7 @@ function Counter() {
       useEffect(() => {
         // Gọi hàm fetchData
         fetchData();
-      }, [searchTerm]); // Truyền searchTerm vào mảng phụ thuộc để chỉ chạy hook useEffect khi searchTerm thay đổi
+      }, [searchTerm]);
 
       // Hiển thị giao diện cho component
       return (
@@ -514,33 +514,10 @@ function Counter() {
       // Sử dụng hook useEffect để theo dõi giá trị của props name
       useEffect(() => {
         alert(`Giá trị mới của prop name: ${name}`);
-      }, [name]); // Truyền prop name vào mảng phụ thuộc để chỉ chạy hook useEffect khi prop name thay đổi
+      }, [name]);
 
       return <div>MyComponent</div>;
     }
     ```
 
   - `useEffect(callback)` với mảng phụ thuộc không dược khai báo, thì useEffect sẽ gọi hàm `callback` mỗi khi component render. Trường hợp này không được khuyến khích sử dụng vì có thể gây ra các vấn đề về hiệu suất hoặc vòng lặp vô hạn nếu bạn không cẩn thận. Vì vậy, bạn nên truyền một mảng phụ thuộc là array rỗng hoặc array chứa các giá trị mà bạn muốn hàm callback của useEffect chạy lại khi chúng thay đổi.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,3 +1,4 @@
+import Ref from "./10_Ref/Ref";
 import Welcome from "./1_Components/Welcome";
 import Profile from "./2_JSX/Profile";
 import Events from "./3_Events/Events";
@@ -12,6 +13,7 @@ import MsiLayout from "./Ex_MsiLayout/MsiLayout";
 import ShoeShop from "./Ex_ShoeShop/ShoeShop";
 import ShoppingCart from "./Ex_ShoppingCart/ShoppingCart";
 import TodoApp from "./Ex_TodoApp/TodoApp";
+import UserManagement from "./Ex_UserManagement/UserManagement";
 
 function App() {
   return (
@@ -28,13 +30,15 @@ function App() {
     // <Props />
     // <State />
     // <Form />
-    <Effect />
+    // <Effect />
+    // <Ref />
 
     // <Home />
     // <MsiLayout />
     // <ShoeShop />
     // <TodoApp />
     // <ShoppingCart />
+    <UserManagement />
   );
 }
 
