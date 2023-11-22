@@ -521,3 +521,12 @@ function Counter() {
     ```
 
   - `useEffect(callback)` với mảng phụ thuộc không dược khai báo, thì useEffect sẽ gọi hàm `callback` mỗi khi component render. Trường hợp này không được khuyến khích sử dụng vì có thể gây ra các vấn đề về hiệu suất hoặc vòng lặp vô hạn nếu bạn không cẩn thận. Vì vậy, bạn nên truyền một mảng phụ thuộc là array rỗng hoặc array chứa các giá trị mà bạn muốn hàm callback của useEffect chạy lại khi chúng thay đổi.
+
+### Refs
+
+- Refs là một cơ chế cho phép bạn lưu trữ dữ liệu cho component nhưng không muốn việc thay đổi nó gây ra việc re-render.
+- Một số ứng dụng của refs:
+  -
+
+- Cú pháp: `const ref = useRef(initialValue)`
+-
