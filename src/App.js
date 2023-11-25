@@ -1,6 +1,8 @@
 import Ref from "./10_Ref/Ref";
 import Reducer from "./11_Reducer/Reducer";
 import Context from "./12_Context/Context";
+import CustomHook from "./13_CustomHook/CustomHook";
+import Styles from "./14_Styles/Styles";
 import Welcome from "./1_Components/Welcome";
 import Profile from "./2_JSX/Profile";
 import Events from "./3_Events/Events";
@@ -36,7 +38,9 @@ function App() {
     // <Effect />
     // <Ref />
     // <Reducer />
-    <Context />
+    // <Context />
+    // <CustomHook />
+    <Styles />
 
     // <Home />
     // <MsiLayout />

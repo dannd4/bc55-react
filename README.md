@@ -522,11 +522,242 @@ function Counter() {
 
   - `useEffect(callback)` với mảng phụ thuộc không dược khai báo, thì useEffect sẽ gọi hàm `callback` mỗi khi component render. Trường hợp này không được khuyến khích sử dụng vì có thể gây ra các vấn đề về hiệu suất hoặc vòng lặp vô hạn nếu bạn không cẩn thận. Vì vậy, bạn nên truyền một mảng phụ thuộc là array rỗng hoặc array chứa các giá trị mà bạn muốn hàm callback của useEffect chạy lại khi chúng thay đổi.
 
+##### Effect cleanup
+
+- Một số side effect cần phải được dọn dẹp trước khi component bị xóa khỏi DOM. Ví dụ: trong callback effect bạn có thực hiện thao tác đăng ký sự kiện, bạn cần phải hủy đăng ký sự kiện đó trước khi component bị xóa khỏi DOM. Để làm điều này, bạn cần sử dụng effect cleanup.
+- Nếu hàm callback của `useEffect(callback, deps)` return về một hàm, thì nó được coi là effect cleanup.
+
+```jsx
+useEffect(() => {
+  // Your effect
+
+  return () => {
+    // Cleanup
+  };
+}, []);
+```
+
+- Effect cleanup hoạt động như sau:
+  - Sau khi render lần đầu, useEffect() gọi hàm callback và return về hàm cleanup.
+  - Trong các lần render tiếp theo, nếu mảng phụ thuộc bị thay đổi, trước khi gọi lại hàm callback thì useEffect sẽ gọi hàm cleanup đã được hàm callback return về ở lần thực thi trước đó. Mục đích của hàm cleanup này là để giải phóng các tài nguyên được sử dụng trong hàm callback của useEffect trước đó.
+  - Cuối cùng, trước khi component bị huỷ bỏ, useEffect gọi hàm cleanup của lần thực thi cuối cùng.
+
+##### Component lifecycle
+
+- Một component trong React sẽ trải qua các giai đoạn khác nhau trong quá trình hoạt động.
+
+  - Mounting: là giai đoạn khi component được khởi tạo và hiển thị lần đầu tiên trên DOM.
+  - Updating: là giai đoạn khi component được cập nhật thông qua việc thay đổi props hoặc state.
+  - Unmounting: là giai đoạn khi component bị xóa khỏi DOM.
+
+- Việc nắm được các giai đoạn này sẽ giúp bạn hiểu rõ hơn về cách hoạt động của React và sử dụng useEffect một cách hiệu quả.
+  ![useEffect](https://github.com/dannd4/bc55-react/assets/45675930/1e98179e-13eb-44d4-935a-9379864526cb)
+
 ### Refs
 
-- Refs là một cơ chế cho phép bạn lưu trữ dữ liệu cho component nhưng không muốn việc thay đổi nó gây ra việc re-render.
-- Một số ứng dụng của refs:
-  -
+- Thông thường dể quản lý việc hiển thị trong component ta thường dùng state. Tuy nhiên trong một số trường hợp ta cần truy cập trực tiếp đến các phần tử DOM để thực hiện một số thao tác như focus vào input, thay đổi kích thước của một phần tử, lấy giá trị của một phần tử,...
+- Refs là một cơ chế cho phép ta truy cập trực tiếp đến các phần tử DOM hoặc các component trong React.
+
+##### Hook useRef
 
 - Cú pháp: `const ref = useRef(initialValue)`
--
+
+  - Tham số initialValue là giá trị khởi tạo cho ref.
+  - Kết quả trả về là một đối tượng ref.
+
+- Để truy cập đến phần tử DOM:
+
+```jsx
+function MyComponent() {
+  // Khai báo một ref
+  const inputRef = useRef();
+
+  useEffect(() => {
+    // Sử dụng ref để thao tác với DOM.
+    inputRef.current.focus();
+  }, []);
+
+  // Sử dụng ref để tham chiếu đến phần tử DOM
+  return <input type="text" ref={inputRef} />;
+}
+```
+
+- Ngoài ra, refs còn được sử dụng để lưu trữ giá trị của một biến trong component. Điểm khác biệt so với state là refs không gây ra việc render lại component khi giá trị của biến thay đổi.
+
+```jsx
+function MyComponent() {
+  // Khai báo một ref
+  const countRef = useRef(0);
+  // Khai báo một state
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <button onClick={() => countRef.current++}>
+        Ref: {countRef.current}
+      </button>
+      <button onClick={() => setCount(count + 1)}>State: {count}</button>
+    </div>
+  );
+}
+```
+
+### Hook useReducer
+
+- Hook `useReducer` là một hook giúp quản lý state cho component. Nó giống với hook `useState` nhưng thay vì quản lý một biến state đơn lẻ, `useReducer` quản lý một biến state phức tạp hơn, có thể là một object hoặc một mảng.
+- Cú pháp: `const [state, dispatch] = useReducer(reducer, initialState)`
+  - Tham số reducer là một hàm nhận vào 2 tham số là state hiện tại và action, trả về state mới. Action là một object chứa các thuộc tính type và payload. Type là một chuỗi định danh cho action, payload là dữ liệu được truyền vào để thực hiện action.
+  - Tham số initialState là giá trị khởi tạo cho state.
+  - Kết quả trả về là một mảng gồm 2 phần tử: state hiện tại và hàm dispatch.
+
+```jsx
+// Khởi tạo state
+const initialState = { count: 0 };
+
+// Khai báo reducer
+function reducer(state, action) {
+  switch (action.type) {
+    case "increment":
+      return { count: state.count + 1 };
+    case "decrement":
+      return { count: state.count - 1 };
+    default:
+      return state;
+  }
+}
+
+function Counter() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  return (
+    <>
+      Count: {state.count}
+      <button onClick={() => dispatch({ type: "decrement" })}>-</button>
+      <button onClick={() => dispatch({ type: "increment" })}>+</button>
+    </>
+  );
+}
+```
+
+### Custom Hooks
+
+- Custom hooks là những hooks mà bạn tự tạo ra để thực hiện một chức năng riêng biệt. Đây là một kĩ thuật để chia sẻ logic được tạo lại giữa các component. Nó giúp tái sử dụng code và giảm sự lặp lại trong ứng dụng của bạn.
+- Custom hooks thực chất là các hàm bắt đầu bằng từ khóa `use` và có thể gọi đến các hooks khác (Các hooks mặc định của React như useState, useEffect, useRef,... hoặc các custom hooks của bạn). VD: `useCounter`, `useDebounce`, ...
+
+```jsx
+function useCounter(initialCount = 0) {
+  const [count, setCount] = useState(initialCount);
+
+  const increment = () => setCount(count + 1);
+  const decrement = () => setCount(count - 1);
+
+  return { count, increment, decrement };
+}
+
+function Counter() {
+  const { count, increment, decrement } = useCounter(0);
+
+  return (
+    <>
+      Count: {count}
+      <button onClick={decrement}>-</button>
+      <button onClick={increment}>+</button>
+    </>
+  );
+}
+```
+
+### Context
+
+- Thông thường, ta sẽ dùng `props` để truyền dữ liệu từ component cha sang component con. Tuy nhiên, việc truyền props có thể trở nên dài dòng và bất tiện nếu bạn phải truyền chúng thông qua nhiều lớp component ở giữa hoặc nếu nhiều component trong ứng dụng của bạn cần sử dụng một giá trị prop giống nhau.
+  ![state-share](https://github.com/dannd4/bc55-react/assets/45675930/a5d522e6-f5eb-44de-81d2-cf91e605b0e6)
+
+- Context cho phép component cha cung cấp dữ liệu cho toàn bộ component con bên dưới nó một cách trực tiếp mà không cần truyền thông qua các lớp component ở giữa.
+  ![context](https://github.com/dannd4/bc55-react/assets/45675930/bdb656e8-cafb-4566-aa20-75f4acb546cd)
+
+- Ví dụ: Trong ứng dụng của bạn có nhiều component cần truy cập vào dữ liệu người dùng hiện tại. Thay vì truyền dữ liệu người dùng thông qua props, bạn có thể sử dụng Context để cung cấp dữ liệu người dùng cho toàn bộ ứng dụng.
+
+  - Tạo context:
+
+  ```jsx
+  // UserContext.js
+
+  // Khởi tạo context
+  const UserContext = React.createContext();
+
+  // Khởi tạo provider
+  export function CurrentUserProvider({ children }) {
+    const [user, setUser] = useState(null);
+
+    const login = (email, password) => {
+      // Gọi API để đăng nhập
+      const response = await axios.post(`https://example.com/api/login`, {
+        email,
+        password,
+      });
+      // Cập nhật biến trạng thái user với dữ liệu mới
+      setUser(response.data);
+    };
+
+    const logout = () => {
+      // Cập nhật biến trạng thái user với giá trị null
+      setUser(null);
+    };
+
+    return (
+      <UserContext.Provider value={{ user, login, logout }}>
+        {children}
+      </UserContext.Provider>
+    );
+  }
+
+  // Tạo custom hook để sử dụng context
+  export function useCurrentUser() {
+    const context = useContext(UserContext);
+    if (context === undefined) {
+      throw new Error("useUser must be used within a UserProvider");
+    }
+    return context;
+  }
+  ```
+
+  - Khai báo provider ở component cha
+
+  ```jsx
+  function App() {
+    return (
+      <CurrentUserProvider>
+        <Login />
+        <Profile />
+      </CurrentUserProvider>
+    );
+  }
+  ```
+
+  - Sử dụng Context trong các component con
+
+  ```jsx
+  function Login() {
+    const [values, setValues] = useState({ email: "", password: "" });
+
+    const { login } = useCurrentUser();
+
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      login(values);
+    };
+
+    return <form onSubmit={handleSubmit}>...</form>;
+  }
+
+  function Profile() {
+    const { user, logout } = useCurrentUser();
+
+    return (
+      <div>
+        <p>Email: {user.email}</p>
+        <button onClick={logout}>Logout</button>
+      </div>
+    );
+  }
+  ```
