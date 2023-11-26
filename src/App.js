@@ -19,6 +19,7 @@ import ShoppingCart from "./Ex_ShoppingCart/ShoppingCart";
 import TodoApp from "./Ex_TodoApp/TodoApp";
 import TodoAppReducer from "./Ex_TodoAppReducer/TodoAppReducer";
 import UserManagement from "./Ex_UserManagement/UserManagement";
+import Header from "./Header/Header";
 
 function App() {
   return (
