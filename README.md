@@ -761,3 +761,78 @@ function Counter() {
     );
   }
   ```
+
+### Redux
+
+- Redux là một thư viện giúp quản lý state cho các ứng dụng javascript, đặc biệt được biết đến khi kết hợp với React. Nó giúp bạn quản lý state của ứng dụng một cách dễ dàng và hiệu quả hơn.
+- Tương tự như context, Redux cũng giúp bạn truyền dữ liệu giữa các component mà không cần thông qua các lớp component ở giữa. Tuy nhiên, Redux cung cấp một cơ chế để quản lý state của toàn bộ ứng dụng, giúp bạn dễ dàng theo dõi và cập nhật state.
+- Redux gồm 3 thành phần chính:
+  - Store: Là nơi quản lý state của ứng dụng.
+  - Action: Một object chứa thông tin cho biết cần phải làm gì với state, ví dụ như thêm sản phẩm, xóa sản phẩm,... Action được gửi đến store bằng phương thức `dispatch`.
+  - Reducer: Là các hàm thực thi các thay đổi state (trong store) dựa theo các thông tin trong action. Reducer nhận hai tham số là state hiện tại và action, và trả về một state mới.
+
+![Redux](https://redux.js.org/assets/images/ReduxDataFlowDiagram-49fa8c3968371d9ef6f2a1486bd40a26.gif)
+
+- Để sử dụng Redux trong React, ta cần cài đặt các thư viện sau:
+
+  - `@reduxjs/toolkit` thư viện chính để làm việc với redux.
+  - `react-redux` thư viện giúp kết nối react với redux.
+
+- Các bước để sử dụng Redux trong React:
+
+  - Cấu hình redux store:
+
+  ```jsx
+  // store.js
+  import { configureStore } from "@reduxjs/toolkit";
+
+  const store = configureStore({ reducer });
+
+  function reducer(state = { count: 0 }, action) {
+    switch (action.type) {
+      case "INCREMENT":
+        return { count: state.count + 1 };
+      case "DECREMENT":
+        return { count: state.count - 1 };
+      default:
+        return state;
+    }
+  }
+
+  export default store;
+  ```
+
+  - Kết nối redux store với react component:
+
+  ```jsx
+  // index.js
+  import { Provider } from "react-redux";
+  import store from "./store";
+
+  ReactDOM.render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+    document.getElementById("root")
+  );
+  ```
+
+  - Sử dụng các hooks useSelector và useDispatch trong component để lấy state và dispatch action:
+
+  ```jsx
+  // Counter.jsx
+  import { useSelector, useDispatch } from "react-redux";
+
+  function Counter() {
+    const count = useSelector((state) => state.count);
+    const dispatch = useDispatch();
+
+    return (
+      <div>
+        <p>Count: {count}</p>
+        <button onClick={() => dispatch({ type: "DECREMENT" })}>-</button>
+        <button onClick={() => dispatch({ type: "INCREMENT" })}>+</button>
+      </div>
+    );
+  }
+  ```

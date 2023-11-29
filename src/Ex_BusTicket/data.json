@@ -1,0 +1,218 @@
+[
+  {
+    "id": 1,
+    "name": "Ghế A1",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 2,
+    "name": "Ghế A2",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 3,
+    "name": "Ghế A3",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 4,
+    "name": "Ghế A4",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 5,
+    "name": "Ghế A5",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 6,
+    "name": "Ghế A6",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 7,
+    "name": "Ghế A7",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 8,
+    "name": "Ghế A8",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 9,
+    "name": "Ghế A9",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 10,
+    "name": "Ghế A10",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 11,
+    "name": "Ghế A11",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 12,
+    "name": "Ghế A12",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 13,
+    "name": "Ghế A13",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 14,
+    "name": "Ghế A14",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 15,
+    "name": "Ghế A15",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 16,
+    "name": "Ghế A16",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 17,
+    "name": "Ghế A17",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 18,
+    "name": "Ghế A18",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 19,
+    "name": "Ghế A19",
+    "price": 10,
+    "isBooked": true
+  },
+  {
+    "id": 20,
+    "name": "Ghế A20",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 21,
+    "name": "Ghế A21",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 22,
+    "name": "Ghế A22",
+    "price": 10,
+    "isBooked": true
+  },
+  {
+    "id": 23,
+    "name": "Ghế A23",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 24,
+    "name": "Ghế A24",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 25,
+    "name": "Ghế A25",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 26,
+    "name": "Ghế A26",
+    "price": 10,
+    "isBooked": true
+  },
+  {
+    "id": 27,
+    "name": "Ghế A27",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 28,
+    "name": "Ghế A28",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 29,
+    "name": "Ghế A29",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 30,
+    "name": "Ghế A30",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 31,
+    "name": "Ghế A31",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 32,
+    "name": "Ghế A32",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 33,
+    "name": "Ghế A33",
+    "price": 10,
+    "isBooked": true
+  },
+  {
+    "id": 34,
+    "name": "Ghế A34",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 35,
+    "name": "Ghế A35",
+    "price": 10,
+    "isBooked": false
+  },
+  {
+    "id": 36,
+    "name": "Ghế A36",
+    "price": 10,
+    "isBooked": false
+  }
+]
