@@ -4,6 +4,7 @@ import Context from "./12_Context/Context";
 import CustomHook from "./13_CustomHook/CustomHook";
 import Styles from "./14_Styles/Styles";
 import Redux from "./15_Redux/Redux";
+import ReduxAsync from "./16_ReduxAsync/ReduxAsync";
 import Welcome from "./1_Components/Welcome";
 import Profile from "./2_JSX/Profile";
 import Events from "./3_Events/Events";
@@ -44,6 +45,7 @@ function App() {
     // <CustomHook />
     // <Styles />
     // <Redux />
+    <ReduxAsync />
 
     // <Home />
     // <MsiLayout />
@@ -52,7 +54,7 @@ function App() {
     // <ShoppingCart />
     // <UserManagement />
     // <TodoAppReducer />
-    <BusTicket />
+    // <BusTicket />
   );
 }
 

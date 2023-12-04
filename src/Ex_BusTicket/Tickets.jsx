@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { removeSeat } from "../redux/slices/busTicketSlice";
 
 export default function Tickets() {
   const selectedSeats = useSelector((state) => {
@@ -8,7 +9,8 @@ export default function Tickets() {
 
   const dispatch = useDispatch();
   const handleRemove = (seat) => {
-    dispatch({ type: "busTicket/removeSeat", payload: seat });
+    // dispatch({ type: "busTicket/removeSeat", payload: seat });
+    dispatch(removeSeat(seat));
   };
 
   return (
